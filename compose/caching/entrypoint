@@ -1,0 +1,18 @@
+#!/bin/bash
+
+echo "Updating the proxy_pass in the nginx config based on the DRIVEBC_IMAGE_BASE_URL Environment Variable"
+
+# Display the value
+echo "The value of DRIVEBC_IMAGE_API_BASE_URL in the environment variable is" ${DRIVEBC_IMAGE_BASE_URL}
+
+#This will remove the trailing / if one exists as it will break the nginx.conf file
+DRIVEBC_IMAGE_API_BASE_URL=${DRIVEBC_IMAGE_BASE_URL%/}
+
+#Replace the $DRIVEBC_IMAGE_BASE_URL variables in the conf file.
+envsubst "\${DRIVEBC_IMAGE_BASE_URL}" < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+sed -i "s~\$DRIVEBC_BASE_URL~$DRIVEBC_IMAGE_BASE_URL~g" /usr/share/nginx/html/index.html
+
+#for testing
+cat /usr/share/nginx/html/index.html
+
+exec "$@"
