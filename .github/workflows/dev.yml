@@ -44,7 +44,7 @@ jobs:
 #    name: Deploy Latest Images
 #    environment:
 #      name: dev
-#      url: https://dev-cache.apps.silver.devops.gov.bc.ca
+#      url: https://dev-drivebc-cache.apps.silver.devops.gov.bc.ca
 #    steps:
 #    - name: Checkout code
 #      uses: actions/checkout@v4
