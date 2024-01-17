@@ -29,9 +29,8 @@ spec:
               value: {{ $deploymentTag | quote }}
             - name: DEPLOYMENT_TIME
               value: {{ $deploymentTime | quote }}
-          envFrom:
-            - configMapRef:
-                name: {{ .Values.deployment.env.imagecachingConfigMap  }}
+            - name: DRIVEBC_IMAGE_API_BASE_URL
+              value: {{ .Values.deployment.env.DRIVEBC_IMAGE_API_BASE_URL  }}
           name: {{ include "app.fullname" . }}
           ports:
             - containerPort: 8080

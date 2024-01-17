@@ -1,5 +1,5 @@
-fullnameOverride: dev-cache
-nameOverride: dev-cache
+fullnameOverride: dev-drivebc-cache
+nameOverride: dev-drivebc-cache
 
 replicaCount: 1
 
