@@ -16,7 +16,7 @@ deployment:
       cpu: 250m
       memory: 100Mi
   env:
-    DRIVEBC_IMAGE_API_BASE_URL: https://tst-images.drivebc.ca/
+    DRIVEBC_IMAGE_BASE_URL: https://tst-images.drivebc.ca/
 
 route:
   host: dev-drivebc-cache.apps.silver.devops.gov.bc.ca

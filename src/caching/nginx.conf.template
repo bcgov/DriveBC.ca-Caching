@@ -50,10 +50,10 @@ http {
         }           
             
         proxy_cache images_cache;
-        # Reverse proxy to ${DRIVEBC_IMAGE_API_BASE_URL} webcam, map, etc
+        # Reverse proxy to ${DRIVEBC_IMAGE_BASE_URL} webcam, map, etc
         location /bchighwaycam/ {
                 proxy_ssl_server_name on;
-                proxy_pass ${DRIVEBC_IMAGE_API_BASE_URL};
+                proxy_pass ${DRIVEBC_IMAGE_BASE_URL};
                 proxy_connect_timeout 5s;
                 proxy_cache_background_update on;
                 proxy_cache_lock on;
@@ -64,10 +64,10 @@ http {
                 proxy_cache_valid 200 1m;
                 add_header X-Proxy-Cache $upstream_cache_status;
         }
-        # Reverse proxy to ${DRIVEBC_IMAGE_API_BASE_URL} ReplayTheDay
+        # Reverse proxy to ${DRIVEBC_IMAGE_BASE_URL} ReplayTheDay
         location /ReplayTheDay/ {
                 proxy_ssl_server_name on;
-                proxy_pass ${DRIVEBC_IMAGE_API_BASE_URL};
+                proxy_pass ${DRIVEBC_IMAGE_BASE_URL};
                 proxy_connect_timeout 5s;
                 proxy_cache_background_update on;
                 proxy_cache_lock on;
