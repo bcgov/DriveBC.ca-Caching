@@ -5,7 +5,7 @@ on:
   push:
     tags:
     - v*.*.*
-#  workflow_dispatch: #Ensure you run it with a tag set if running manually. Branch Check will validate  
+  workflow_dispatch: #Ensure you run it with a tag set if running manually. Branch Check will validate  
 
 env:
     IMAGE_NAME: image-caching-gh
