@@ -1,0 +1,32 @@
+#This will deploy the selected git tag to openshift.
+name: Test retag
+
+on: workflow_dispatch
+
+env:
+    IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+    REGISTRY_USER: ${{ github.actor }}
+    REGISTRY_PASSWORD: ${{ github.token }}
+
+permissions:
+  packages: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    environment:
+      name: stg
+      url: https://stg-drivebc-cache.apps.silver.devops.gov.bc.ca
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Add latest-stg tag to images
+      uses: shrink/actions-docker-registry-tag@v3
+      with:
+        registry: ghcr.io
+        repository: bcgov/drivebc.ca-caching
+        target: 0.0.7
+        tags: |
+          latest-stg

@@ -8,7 +8,6 @@ on:
   workflow_dispatch: #Ensure you run it with a tag set if running manually. Branch Check will validate  
 
 env:
-    IMAGE_NAME: image-caching-gh
     IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
     REGISTRY_USER: ${{ github.actor }}
     REGISTRY_PASSWORD: ${{ github.token }}
@@ -54,7 +53,7 @@ jobs:
       uses: redhat-actions/buildah-build@v2
       with:
         image: drivebc.ca-caching
-        tags: latest tst ${{ github.sha }} ${{ needs.build-pre.outputs.tag }}
+        tags: latest latest-tst ${{ github.sha }} ${{ needs.build-pre.outputs.tag }}
         labels: |
           app=drivebc
         containerfiles: ./compose/caching/Dockerfile
