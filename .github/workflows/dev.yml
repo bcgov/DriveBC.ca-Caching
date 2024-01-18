@@ -39,7 +39,7 @@ jobs:
         password: ${{ env.REGISTRY_PASSWORD }}
 
   versionUpdate:
-    needs: [build-image-caching]
+    needs: [build-caching]
     runs-on: ubuntu-latest
     name: Deploy Latest Images
     environment:
