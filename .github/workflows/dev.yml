@@ -59,4 +59,4 @@ jobs:
 
     - name: Helm upgrade on OpenShift Environment
       run: |
-        helm upgrade dev-drivebc-cache -f .\helm\values-dev.yaml .\helm --set drivebc-caching.image.tag="${{ github.sha }}"
+        helm upgrade dev-drivebc-cache -f ./helm/values.yaml ./helm --set drivebc-caching.image.tag="${{ github.sha }}"
