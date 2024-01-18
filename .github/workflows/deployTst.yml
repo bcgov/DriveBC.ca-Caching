@@ -74,7 +74,7 @@ jobs:
     name: Update the App Version in OpenShift
     environment:
       name: tst
-      url: https://dev-drivebc-cache.apps.silver.devops.gov.bc.ca
+      url: https://tst-drivebc-cache.apps.silver.devops.gov.bc.ca
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -89,5 +89,5 @@ jobs:
 
     - name: Update the version in OpenShift
       run: |
-        helm upgrade tst-drivebc-cache -f ./helm/values-test.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}"
+        helm upgrade tst-drivebc-cache -f ./helm/values-tst.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}"
 

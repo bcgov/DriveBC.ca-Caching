@@ -1,0 +1,65 @@
+name: Promote from UAT to Prod
+
+on: 
+  workflow_dispatch: #Make sure you select a tag and not a branch if using manually
+  release:
+    types: [published]
+
+
+env:
+    IMAGE_NAME: image-caching-gh
+    IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+    REGISTRY_USER: ${{ github.actor }}
+    REGISTRY_PASSWORD: ${{ github.token }}
+
+jobs:
+
+  build-pre:
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    outputs:
+      tag: ${{ steps.vars.outputs.tag }}
+
+    steps:
+      - name: Fail on branches
+        run: exit 1
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+      
+      - name: Remove v from version for the docker tag
+        id: vars
+        run: |
+          vtag=${{ github.ref_name }}
+          echo "tag=${vtag//v}" >> $GITHUB_OUTPUT
+
+
+  deploy:
+    needs: [build-pre]
+    runs-on: ubuntu-latest
+    name: Deploy
+    environment:
+      name: prd
+      url: https://prd-drivebc-cache.apps.silver.devops.gov.bc.ca
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Add latest-prod tag to images
+      uses: shrink/actions-docker-registry-tag@v3
+      with:
+        registry: ghcr.io
+        repository: wmuldergov/image-caching-gh
+        target: ${{ needs.build-pre.outputs.tag }}
+        tags: |
+          latest-prod
+
+    - name: Authenticate and set context
+      uses: redhat-actions/oc-login@v1
+      with:
+        openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+        openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+        namespace: ${{ env.OPENSHIFT_NAMESPACE }}
+        insecure_skip_tls_verify: true
+
+    - name: Update the version in OpenShift
+      run: |
+        helm upgrade prd-drivebc-cache -f ./helm/values-prd.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}"
