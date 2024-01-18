@@ -4,7 +4,7 @@ name: Build & Deploy to Tst
 on:
   push:
     tags:
-    - v*.*.*
+      - '*'
   workflow_dispatch: #Ensure you run it with a tag set if running manually. Branch Check will validate  
 
 env:

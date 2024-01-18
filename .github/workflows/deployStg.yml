@@ -46,7 +46,7 @@ jobs:
       uses: shrink/actions-docker-registry-tag@v3
       with:
         registry: ghcr.io
-        repository: ${{ github.repository }}/drivebc.ca-caching
+        repository: drivebc.ca-caching
         target: ${{ needs.build-pre.outputs.tag }}
         tags: |
           latest-stg
