@@ -10,7 +10,7 @@ image:
 deployment:
   resources:
     requests:
-      cpu: 50m
+      cpu: 100m
       memory: 50Mi
     limits:
       cpu: 250m
@@ -24,8 +24,8 @@ monitoring:
 autoscaling:
   enabled: true
   minReplicas: 3
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 80
+  maxReplicas: 15
+  targetCPUUtilizationPercentage: 75
 
 route:
   host: prd-drivebc-cache.apps.silver.devops.gov.bc.ca
