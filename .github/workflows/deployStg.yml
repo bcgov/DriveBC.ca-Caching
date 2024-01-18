@@ -42,11 +42,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Add latest-uat tag to images
+    - name: Add latest-stg tag to images
       uses: shrink/actions-docker-registry-tag@v3
       with:
         registry: ghcr.io
-        repository: wmuldergov/image-caching-gh
+        repository: ${{ github.repository }}/drivebc.ca-caching
         target: ${{ needs.build-pre.outputs.tag }}
         tags: |
           latest-stg

@@ -13,7 +13,6 @@ env:
     REGISTRY_PASSWORD: ${{ github.token }}
 
 jobs:
-
   build-pre:
     runs-on: ubuntu-latest
     timeout-minutes: 1
@@ -31,7 +30,6 @@ jobs:
           vtag=${{ github.ref_name }}
           echo "tag=${vtag//v}" >> $GITHUB_OUTPUT
 
-
   deploy:
     needs: [build-pre]
     runs-on: ubuntu-latest
@@ -43,14 +41,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Add latest-prod tag to images
+    - name: Add latest-prd tag to images
       uses: shrink/actions-docker-registry-tag@v3
       with:
         registry: ghcr.io
-        repository: wmuldergov/image-caching-gh
+        repository: ${{ github.repository }}/drivebc.ca-caching
         target: ${{ needs.build-pre.outputs.tag }}
         tags: |
-          latest-prod
+          latest-prd
 
     - name: Authenticate and set context
       uses: redhat-actions/oc-login@v1
