@@ -1,5 +1,5 @@
-fullnameOverride: dev-drivebc-cache
-nameOverride: dev-drivebc-cache
+fullnameOverride: stg-drivebc-cache
+nameOverride: stg-drivebc-cache
 
 replicaCount: 3
 

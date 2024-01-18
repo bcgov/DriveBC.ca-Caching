@@ -1,11 +1,11 @@
 #This will build, push to github packages (with the version tag) and then deploy that openshift.
-name: Build & Deploy Image to Tst
+name: Build & Deploy to Tst
 
 on:
-  workflow_dispatch: #Ensure you run it with a tag set if running manually. Branch Check will validate
   push:
     tags:
-    - '*'
+    - v*.*.*
+  workflow_dispatch: #Ensure you run it with a tag set if running manually. Branch Check will validate  
 
 env:
     IMAGE_NAME: image-caching-gh
@@ -71,7 +71,7 @@ jobs:
   versionUpdate:
     needs: [build, build-pre]
     runs-on: ubuntu-latest
-    name: Update the App Version
+    name: Update the App Version in OpenShift
     environment:
       name: tst
       url: https://dev-drivebc-cache.apps.silver.devops.gov.bc.ca
@@ -87,8 +87,7 @@ jobs:
         namespace: ${{ env.OPENSHIFT_NAMESPACE }}
         insecure_skip_tls_verify: true
 
-    - name: Update the version
+    - name: Update the version in OpenShift
       run: |
-        helm dependency update .\helm
         helm upgrade tst-drivebc-cache -f ./helm/values-test.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}"
 
