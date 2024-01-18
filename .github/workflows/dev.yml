@@ -12,7 +12,7 @@ env:
 jobs:
   build-caching:
     runs-on: ubuntu-latest
-    name: Build & Push Docker Caching Image
+    name: Build & Publish DriveBC Caching Image
     environment: dev
     
     steps:
@@ -41,7 +41,7 @@ jobs:
   versionUpdate:
     needs: [build-caching]
     runs-on: ubuntu-latest
-    name: Deploy Latest Images
+    name: Deploy Latest Image
     environment:
       name: dev
       url: https://dev-drivebc-cache.apps.silver.devops.gov.bc.ca
@@ -59,4 +59,4 @@ jobs:
 
     - name: Helm upgrade on OpenShift Environment
       run: |
-        helm upgrade dev-drivebc-cache -f ./helm/values.yaml ./helm --set drivebc-caching.image.tag="${{ github.sha }}"
+        helm upgrade dev-drivebc-cache -f ./helm/values.yaml ./helm --set image.tag="${{ github.sha }}"
