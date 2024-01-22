@@ -37,6 +37,16 @@ spec:
               protocol: TCP
           imagePullPolicy: IfNotPresent
           image: {{ .Values.image.repository  }}:{{ .Values.image.tag  }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
