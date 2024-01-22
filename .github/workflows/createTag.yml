@@ -1,4 +1,4 @@
-name: Create New Tag
+name: 2a. Create Tag
 
 on:
   workflow_dispatch:

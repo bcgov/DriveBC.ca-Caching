@@ -1,4 +1,4 @@
-name: Create new Tag & Deploy to TST
+name: 2. Create Tag & Deploy to Tst
 
 on:
   workflow_dispatch:
@@ -43,7 +43,7 @@ jobs:
     - name: Remove v from version for the docker tag
       id: vars
       run: |
-        vtag={{ github.event.inputs.tag }}
+        vtag=${{ github.event.inputs.tag }}
         echo "tag=${vtag//v}" >> $GITHUB_OUTPUT
   build:
     needs: [build-pre]

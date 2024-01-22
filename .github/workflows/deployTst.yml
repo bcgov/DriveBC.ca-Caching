@@ -1,6 +1,6 @@
 #This will build, push to github packages (with the version tag) and then deploy to OpenShift
 #This flow requires you to select a tag when you run it, otherwise it will fail.
-name: Build & Deploy to Tst
+name: 2b. Build & Deploy to Tst
 
 on:
   workflow_dispatch: 

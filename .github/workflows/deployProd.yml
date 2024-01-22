@@ -1,4 +1,4 @@
-name: Promote from UAT to Prod
+name: 4. Promote from Stg to Prd
 
 on: 
   workflow_dispatch: #Make sure you select a tag and not a branch if using manually

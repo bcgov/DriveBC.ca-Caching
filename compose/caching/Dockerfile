@@ -5,8 +5,6 @@ FROM nginx:stable-alpine
 #Copy the template file to the nginx folder as well for testing
 COPY ./src/caching/nginx.conf.template /etc/nginx/
 
-COPY ./src/caching/index.html /usr/share/nginx/html
-
 RUN chmod -R 777 /var/cache/nginx
 RUN chmod -R 777 /var/log/nginx
 RUN chmod -R 775 /etc/nginx

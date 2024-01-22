@@ -1,5 +1,5 @@
 #This will deploy the selected git tag to openshift.
-name: Deploy to Stg
+name: 3. Promote from Tst to Stg
 
 on: workflow_dispatch
 
