@@ -1,4 +1,4 @@
-name: 2. Create Tag & Deploy to Tst
+name: 2. Create Tag & Build/Deploy to Tst
 
 on:
   workflow_dispatch:
