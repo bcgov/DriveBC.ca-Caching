@@ -12,6 +12,11 @@ on:
         description: Tag Message (e.g. Story Number)
         required: true
 
+env:
+    IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+    REGISTRY_USER: ${{ github.actor }}
+    REGISTRY_PASSWORD: ${{ github.token }}
+
 jobs:
   tag:
     if: startsWith(github.ref, 'refs/heads/') == true
