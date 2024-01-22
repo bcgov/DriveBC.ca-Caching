@@ -10,25 +10,22 @@ image:
 deployment:
   resources:
     requests:
-      cpu: 100m
+      cpu: 50m
       memory: 50Mi
     limits:
       cpu: 250m
-      memory: 100Mi
+      memory: 150Mi
   env:
     DRIVEBC_IMAGE_BASE_URL: https://images.drivebc.ca/
-
-monitoring:
-  enabled: false
 
 autoscaling:
   enabled: true
   minReplicas: 3
-  maxReplicas: 15
+  maxReplicas: 10
   targetCPUUtilizationPercentage: 75
 
 route:
-  host: prd-drivebc-cache.apps.silver.devops.gov.bc.ca
+  host: prd-drivebc-cache.apps.silver.devops.gov.bc.ca  #NOTE: You may also have cache.drivebc.ca but that needs to be added manually as it has a certificate
   iprestricted: false #Set to true if you want to limit IP's the the addresses in the ipallowlist below
   ipallowlist: 142.34.53.0/24 142.22.0.0/15 142.24.0.0/13 142.32.0.0/13 208.181.128.46/32 #The first 4 ranges are GOV IP's, the last one is for OXD external IP
 

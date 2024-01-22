@@ -18,9 +18,6 @@ deployment:
   env:
     DRIVEBC_IMAGE_BASE_URL: https://tst-images.drivebc.ca/
 
-monitoring:
-  enabled: false
-
 autoscaling:
   enabled: true
   minReplicas: 1

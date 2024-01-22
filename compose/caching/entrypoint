@@ -10,9 +10,6 @@ DRIVEBC_IMAGE_BASE_URL=${DRIVEBC_IMAGE_BASE_URL%/}
 
 #Replace the $DRIVEBC_IMAGE_BASE_URL variables in the conf file.
 envsubst "\${DRIVEBC_IMAGE_BASE_URL}" < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
-sed -i "s~\$DRIVEBC_BASE_URL~$DRIVEBC_IMAGE_BASE_URL~g" /usr/share/nginx/html/index.html
 
-#for testing
-cat /usr/share/nginx/html/index.html
 
 exec "$@"

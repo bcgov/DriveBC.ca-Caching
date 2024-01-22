@@ -21,33 +21,28 @@ http {
                       '"$http_user_agent" "$http_x_forwarded_for"';
 
     access_log /dev/null;
-    #may want to look at setting up some cache logging to see what % of files are stale etc
     
     sendfile        on;
     #tcp_nopush     on;
 
     keepalive_timeout  65;
-    proxy_cache_path /var/cache/nginx keys_zone=images_cache:10m;
+    proxy_cache_path /var/cache/nginx keys_zone=images_cache:50m;
     #gzip  on;
     server {
         listen       8080 default_server;
         listen       [::]:8080 default_server;
         server_name  _;
         root         /usr/share/nginx/html;
-        index index.html index.htm;
 
         # Load configuration files for the default server block.
         include /etc/nginx/default.d/*.conf;
 
-        # to get index.html page from my source instead of the images.drivebc.ca site
-        location / {
-          index  index.html;
-          try_files $uri $uri/ /index.html;
-        }
-        # So prometheus can get the live status
+        #To view nginx stats from within the terminal
         location = /stub_status {
             stub_status;
-        }           
+            allow 127.0.0.1;
+            deny all;
+        }          
             
         proxy_cache images_cache;
         # Reverse proxy to ${DRIVEBC_IMAGE_BASE_URL} webcam, map, etc
@@ -60,7 +55,7 @@ http {
                 proxy_cache_lock_age 10s;
                 proxy_cache_lock_timeout 10s;
                 proxy_cache_revalidate on;
-                proxy_cache_use_stale error timeout updating http_502 http_503 http_504;
+                proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
                 proxy_cache_valid 200 1m;
                 add_header X-Proxy-Cache $upstream_cache_status;
         }
@@ -74,7 +69,7 @@ http {
                 proxy_cache_lock_age 10s;
                 proxy_cache_lock_timeout 10s;
                 proxy_cache_revalidate on;
-                proxy_cache_use_stale error timeout updating http_502 http_503 http_504;
+                proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
                 proxy_cache_valid any 24h;
                 add_header X-Proxy-Cache $upstream_cache_status;
         }

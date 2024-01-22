@@ -1,25 +1,39 @@
-#This will build, push to github packages (with the version tag) and then deploy to OpenShift
-#This flow requires you to select a tag when you run it, otherwise it will fail.
-name: Build & Deploy to Tst
+name: Create new Tag & Deploy to TST
 
 on:
-  workflow_dispatch: 
-
-env:
-    IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
-    REGISTRY_USER: ${{ github.actor }}
-    REGISTRY_PASSWORD: ${{ github.token }}
+  workflow_dispatch:
+    inputs:
+      tag:
+        type: string
+        description: Tag Version (incl. prefix; e.g. v1.2.3)
+        required: true
+      message:
+        type: string
+        description: Tag Message (e.g. Story Number)
+        required: true
 
 jobs:
-  branchCheck: #may not be needed if we only have it setup to run automatically
+  tag:
+    if: startsWith(github.ref, 'refs/heads/') == true
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+
     steps:
-      - name: Fail on branches
-        run: exit 1
-        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+    - uses: actions/checkout@v4
+
+    - name: Create Tag
+      run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+        git config commit.gpgsign false
+
+        git tag -a ${{ github.event.inputs.tag }} -m "${{ github.event.inputs.message }}"
+        git push origin ${{ github.event.inputs.tag }}
 
   build-pre:
-    needs: [branchCheck]
+    needs: [tag]
     runs-on: ubuntu-latest
     timeout-minutes: 1
     outputs:
@@ -29,10 +43,10 @@ jobs:
     - name: Remove v from version for the docker tag
       id: vars
       run: |
-        vtag=${{ github.ref_name }}
+        vtag={{ github.event.inputs.tag }}
         echo "tag=${vtag//v}" >> $GITHUB_OUTPUT
   build:
-    needs: [branchCheck, build-pre]
+    needs: [build-pre]
     runs-on: ubuntu-latest
     name: Build & Deploy Docker images
     permissions:
@@ -46,7 +60,7 @@ jobs:
       with:
         ref: ${{ github.ref_name }}
       
-    - name: Build nginx image
+    - name: Build nginx caching image
       id: build_image
       uses: redhat-actions/buildah-build@v2
       with:
@@ -87,4 +101,3 @@ jobs:
     - name: Update the version in OpenShift
       run: |
         helm upgrade tst-drivebc-cache -f ./helm/values-tst.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}"
-

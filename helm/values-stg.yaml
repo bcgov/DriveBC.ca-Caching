@@ -14,18 +14,15 @@ deployment:
       memory: 50Mi
     limits:
       cpu: 250m
-      memory: 100Mi
+      memory: 150Mi
   env:
-    DRIVEBC_IMAGE_BASE_URL: https://images.drivebc.ca/
-
-monitoring:
-  enabled: false
+    DRIVEBC_IMAGE_BASE_URL: https://stg-images.drivebc.ca/
 
 autoscaling:
   enabled: true
   minReplicas: 3
   maxReplicas: 5
-  targetCPUUtilizationPercentage: 80
+  targetCPUUtilizationPercentage: 75
 
 route:
   host: stg-drivebc-cache.apps.silver.devops.gov.bc.ca
