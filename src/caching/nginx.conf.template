@@ -43,12 +43,10 @@ http {
             try_files $uri $uri/ /index.html;
         }
 
-        location = /health {
+        location = /healthz {
             access_log off;
             add_header 'Content-Type' 'application/json';
-            return 200 '{"status":"UP"}';
-            allow 127.0.0.1;
-            deny all;
+            return 200 "healthy\n";
         }
 
         #To view nginx stats from within the terminal

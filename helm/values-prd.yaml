@@ -24,6 +24,8 @@ autoscaling:
   maxReplicas: 10
   targetCPUUtilizationPercentage: 75
 
+networkPolicyRequired: false  #Set to true if you need the allow traffic between pods and internet ingress setup
+
 route:
   enabled: true #Could set to false for Prd if you want to use cache.drivebc.ca exclusivly.
   host: prd-drivebc-cache.apps.silver.devops.gov.bc.ca  #NOTE: You may also have cache.drivebc.ca but that needs to be added manually as it has a certificate
