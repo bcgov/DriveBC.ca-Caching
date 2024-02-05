@@ -1,3 +1,4 @@
+{{- if .Values.route.enabled }}
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
@@ -17,3 +18,4 @@ spec:
   tls:
     termination: edge  
   host: {{ .Values.route.host  }}
+{{- end }}

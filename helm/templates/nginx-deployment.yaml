@@ -39,12 +39,12 @@ spec:
           image: {{ .Values.image.repository  }}:{{ .Values.image.tag  }}
           livenessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: 8080
             initialDelaySeconds: 5
           readinessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: 8080
             initialDelaySeconds: 5
       affinity:

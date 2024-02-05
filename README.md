@@ -22,6 +22,14 @@ If you need to make changes to the helm charts or to the nginx.conf file follow 
     1. Click `Publish release`
     1. This will automatically trigger the Github action to do the release
 
+## Adding a certificate
+For Prod you will need to add an additional route for `https://cache.drivebc.ca`. To do that you will:
+1. Get the tls.crt, tls.key and ca.crt files (see internal documentation on getting those files)
+1. Login to openshift in your command window. Navigate to the folder with the certificate files
+1. Run `oc create route edge prd-drivebc-cache-prd-url --service=prd-drivebc-cache --cert=tls.crt --key=tls.key --ca-cert=ca.crt --hostname=cache.drivebc.ca`
+1. Go to the web console and find the route, then go to YAML view
+1. Under spec: tls: create a line with `    insecureEdgeTerminationPolicy: Redirect`
+1. Save
 
 ## License
 

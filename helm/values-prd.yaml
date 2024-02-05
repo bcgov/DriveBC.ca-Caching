@@ -25,6 +25,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 75
 
 route:
+  enabled: true #Could set to false for Prd if you want to use cache.drivebc.ca exclusivly.
   host: prd-drivebc-cache.apps.silver.devops.gov.bc.ca  #NOTE: You may also have cache.drivebc.ca but that needs to be added manually as it has a certificate
   iprestricted: false #Set to true if you want to limit IP's the the addresses in the ipallowlist below
   ipallowlist: 142.34.53.0/24 142.22.0.0/15 142.24.0.0/13 142.32.0.0/13 208.181.128.46/32 #The first 4 ranges are GOV IP's, the last one is for OXD external IP
