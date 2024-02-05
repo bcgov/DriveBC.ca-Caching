@@ -36,19 +36,19 @@ jobs:
     name: Deploy
     environment:
       name: prd
-      url: https://prd-drivebc-cache.apps.silver.devops.gov.bc.ca
+      url: https://cache.drivebc.ca
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-#    - name: Add latest-prd tag to images
-#      uses: shrink/actions-docker-registry-tag@v3
-#      with:
-#        registry: ghcr.io
-#        repository: bcgov/drivebc.ca-caching
-#        target: ${{ needs.build-pre.outputs.tag }}
-#        tags: |
-#          latest-prd
+    - name: Add latest-prd tag to images
+      uses: shrink/actions-docker-registry-tag@v3
+      with:
+        registry: ghcr.io
+        repository: bcgov/drivebc.ca-caching
+        target: ${{ needs.build-pre.outputs.tag }}
+        tags: |
+          latest-prd
 
     - name: Authenticate and set context
       uses: redhat-actions/oc-login@v1

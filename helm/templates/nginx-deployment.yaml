@@ -47,6 +47,8 @@ spec:
               path: /healthz
               port: 8080
             initialDelaySeconds: 5
+        allowPrivilegeEscalation: false
+        runAsNonRoot: true
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

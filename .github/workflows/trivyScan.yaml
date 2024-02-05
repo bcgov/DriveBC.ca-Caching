@@ -1,0 +1,28 @@
+name: Trivy Image Scan
+#This scan allows us to see any vulnerabilities in our prod image so we can decide if it needs to be updated with a newer version.
+on:
+  schedule:
+    # Runs every week at 02:00 Sunday Morning.
+    - cron:  '0 2 * * 0'
+  workflow_dispatch:
+
+permissions: 
+    packages: read
+    security-events: write
+
+jobs:
+  imagescan-nginx:
+    name: Scan latest-prd Static Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'ghcr.io/bcgov/drivebc.ca-caching:latest-prd'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
