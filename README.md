@@ -31,6 +31,24 @@ For Prod you will need to add an additional route for `https://cache.drivebc.ca`
 1. Under spec: tls: create a line with `    insecureEdgeTerminationPolicy: Redirect`
 1. Save
 
+
+## Updating GitHub environment settings
+If you are deploying to a new namespace you will need to update the pointers that GitHub actions uses to deploy the code. These are set with these steps:
+1. In Github navigate to Settings -> Environments
+1. Click on the environment you want to update
+    1. OPENSHIFT_SERVER = URL that you use to login to OC using your command line
+    1. OPENSHIFT_TOKEN = (in the Openshift GUI) User Management -> ServiceAccounts -> pipeline-> pipeline-token-xxxxx -> token
+    1. OPENSHIFT_NAMESPACE = full name of the namespace, ie aaaaaa-prod
+
+## First Deployment
+If you are deploying to a namespace for the first time use these steps:
+1. clone the repo to your PC
+1. Login to OpenShift using the oc command
+1. Navigate to the folder where you cloned the repo
+1. Run a command like this `helm install ENV-drivebc-cache -f ./helm/values-ENV.yaml ./helm --set image.tag=latest-ENV`
+1. Once installed you can use GitHub actions for any future updates
+
+
 ## License
 
 ```
