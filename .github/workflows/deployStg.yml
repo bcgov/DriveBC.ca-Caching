@@ -41,14 +41,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-#    - name: Add latest-stg tag to images
-#      uses: shrink/actions-docker-registry-tag@v3
-#      with:
-#        registry: ghcr.io
-#        repository: bcgov/drivebc.ca-caching
-#        target: ${{ needs.build-pre.outputs.tag }}
-#        tags: |
-#          latest-stg
+    - name: TEST
+      run: |
+        echo ${{ needs.build-pre.outputs.tag }}
+
+    - name: Add latest-stg tag to images
+      uses: shrink/actions-docker-registry-tag@v3
+      with:
+        registry: ghcr.io
+        repository: bcgov/drivebc.ca-caching
+        target: ${{ needs.build-pre.outputs.tag }}
+        tags: |
+          latest-stg
 
     - name: Authenticate and set context
       uses: redhat-actions/oc-login@v1
