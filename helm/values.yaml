@@ -24,6 +24,8 @@ autoscaling:
   maxReplicas: 2
   targetCPUUtilizationPercentage: 80
 
+networkPolicyRequired: true  #Set to true if you need the allow traffic between pods and internet ingress setup
+
 route:
   enabled: true
   host: drivebc-cache.apps.silver.devops.gov.bc.ca
