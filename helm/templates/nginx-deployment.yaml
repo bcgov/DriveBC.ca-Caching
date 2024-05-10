@@ -16,6 +16,10 @@ spec:
       labels:
         {{ include "app.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+        - name: log-storage
+          persistentVolumeClaim:
+            claimName: {{ template "app.fullname" . }}-log-storage
       containers:
         - resources:
             limits:
@@ -37,6 +41,9 @@ spec:
               protocol: TCP
           imagePullPolicy: IfNotPresent
           image: {{ .Values.image.repository  }}:{{ .Values.image.tag  }}
+          volumeMounts:
+            - name: log-storage
+              mountPath: /logs
           livenessProbe:
             httpGet:
               path: /healthz
@@ -47,8 +54,6 @@ spec:
               path: /healthz
               port: 8080
             initialDelaySeconds: 5
-          allowPrivilegeEscalation: false
-          runAsNonRoot: true
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
