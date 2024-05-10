@@ -32,3 +32,44 @@ route:
   iprestricted: false #Set to true if you want to limit IP's the the addresses in the ipallowlist below
   ipallowlist: 142.34.53.0/24 142.22.0.0/15 142.24.0.0/13 142.32.0.0/13 208.181.128.46/32 #The first 4 ranges are GOV IP's, the last one is for OXD external IP
 
+logpvc:
+  storage: 1Gi
+
+cronjobs:
+  analyzeuploadlogs:
+    name: analyzeuploadlogs
+    schedule: '0 9 * * *'  #NOTE: This is in UTC
+    deployment:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 1Gi
+        limits:
+          cpu: 2000m
+          memory: 2Gi
+      env:
+        s3Secret: drivebc-cronjob-s3bucket
+        environment: dev
+      volumes:
+        logs: static-log-storage
+    s3secret:
+      name: drivebc-cronjob-s3bucket
+      access_key_id: "" #DO NOT COMMIT TO GITHUB
+      bucket: ""
+      endpoint: ""
+      secret_access_key: "" #DO NOT COMMIT TO GITHUB
+
+
+  ziplogs:
+    name: ziplogs
+    schedule: '30 * * * *'
+    deployment:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 150m
+          memory: 200Mi
+      volumes:
+        logs: static-log-storage
