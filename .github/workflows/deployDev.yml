@@ -23,7 +23,7 @@ jobs:
     
     - name: Build Image Caching
       id: build_image
-      uses: redhat-actions/buildah-build@v2.9
+      uses: redhat-actions/buildah-build@v2
       with:
         image: drivebc.ca-caching
         tags: latest latest-dev ${{ github.sha }}
@@ -32,7 +32,7 @@ jobs:
         containerfiles: ./compose/caching/Dockerfile
   
     - name: Push to Github Packages
-      uses: redhat-actions/push-to-registry@v2.7
+      uses: redhat-actions/push-to-registry@v2
       with:
         image: ${{ steps.build_image.outputs.image }}
         tags: ${{ steps.build_image.outputs.tags }}
