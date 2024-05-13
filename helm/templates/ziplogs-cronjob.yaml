@@ -39,7 +39,7 @@ spec:
                 - name: DEPLOYMENT_TIME
                   value: {{ $deploymentTime | quote }}
               imagePullPolicy: IfNotPresent
-              image: {{ .Values.image.repository  }}:{{ .Values.image.tag  }}
+              image: {{ .Values.cronjobs.repository  }}:{{ .Values.cronjobs.tag  }}
               securityContext:
                 seccompProfile:
                   type: 'RuntimeDefault'

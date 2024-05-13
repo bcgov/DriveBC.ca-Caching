@@ -45,7 +45,7 @@ spec:
                 - secretRef:
                     name: {{ .Values.cronjobs.analyzeuploadlogs.deployment.env.s3Secret  }}
               imagePullPolicy: IfNotPresent
-              image: {{ .Values.image.repository  }}:{{ .Values.image.tag  }}
+              image: {{ .Values.cronjobs.repository  }}:{{ .Values.cronjobs.tag  }}
               securityContext:
                 seccompProfile:
                   type: 'RuntimeDefault'
