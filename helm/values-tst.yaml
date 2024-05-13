@@ -36,6 +36,8 @@ logpvc:
   storage: 1Gi
 
 cronjobs:
+  image: ghcr.io/bcgov/drivebc.ca-caching-openshiftjobs
+  tag: latest-tst
   analyzeuploadlogs:
     name: analyzeuploadlogs
     schedule: '0 9 * * *'  #NOTE: This is in UTC

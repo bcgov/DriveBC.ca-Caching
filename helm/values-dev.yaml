@@ -37,7 +37,7 @@ logpvc:
 
 cronjobs:
   image: ghcr.io/bcgov/drivebc.ca-caching-openshiftjobs
-  tag:
+  tag: latest-dev
   analyzeuploadlogs:
     name: analyzeuploadlogs
     schedule: '0 9 * * *'  #NOTE: This is in UTC
