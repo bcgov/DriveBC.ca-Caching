@@ -31,7 +31,41 @@ jobs:
       run: |
         vtag=${{ github.ref_name }}
         echo "tag=${vtag//v}" >> $GITHUB_OUTPUT
-  build:
+  buildCachingImages:
+    needs: [branchCheck, build-pre]
+    runs-on: ubuntu-latest
+    name: Build & Push Caching Image
+    permissions:
+      contents: read
+      packages: write
+    environment:
+      name: tst
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref_name }}
+      
+    - name: Build nginx caching image
+      id: build_image
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: drivebc.ca-caching
+        tags: latest latest-tst ${{ github.sha }} ${{ needs.build-pre.outputs.tag }}
+        labels: |
+          app=drivebc
+        containerfiles: ./compose/caching/Dockerfile
+    
+    - name: Push to GitHub Images
+      uses: redhat-actions/push-to-registry@v2
+      with:
+         image: ${{ steps.build_image.outputs.image }}
+         tags: ${{ steps.build_image.outputs.tags }}
+         registry: ${{ env.IMAGE_REGISTRY }}
+         username: ${{ env.REGISTRY_USER }}
+         password: ${{ env.REGISTRY_PASSWORD }}
+
+  buildOpenShiftJobs:
     needs: [branchCheck, build-pre]
     runs-on: ubuntu-latest
     name: Build & Deploy Docker images
@@ -46,27 +80,27 @@ jobs:
       with:
         ref: ${{ github.ref_name }}
       
-    - name: Build nginx image
-      id: build_image
+    - name: Build openshift jobs image
+      id: build_openshift_image
       uses: redhat-actions/buildah-build@v2
       with:
         image: drivebc.ca-caching
         tags: latest latest-tst ${{ github.sha }} ${{ needs.build-pre.outputs.tag }}
         labels: |
           app=drivebc
-        containerfiles: ./compose/caching/Dockerfile
+        containerfiles: ./compose/openshiftjobs/Dockerfile
     
     - name: Push to GitHub Images
-      uses: redhat-actions/push-to-registry@v2.7
+      uses: redhat-actions/push-to-registry@v2
       with:
-         image: ${{ steps.build_image.outputs.image }}
-         tags: ${{ steps.build_image.outputs.tags }}
+         image: ${{ steps.build_openshift_image.outputs.image }}
+         tags: ${{ steps.build_openshift_image.outputs.tags }}
          registry: ${{ env.IMAGE_REGISTRY }}
          username: ${{ env.REGISTRY_USER }}
          password: ${{ env.REGISTRY_PASSWORD }}
 
   versionUpdate:
-    needs: [build, build-pre]
+    needs: [buildCachingImages, buildOpenShiftJobs, build-pre]
     runs-on: ubuntu-latest
     name: Update the App Version in OpenShift
     environment:
@@ -86,5 +120,5 @@ jobs:
 
     - name: Update the version in OpenShift
       run: |
-        helm upgrade tst-drivebc-cache -f ./helm/values-tst.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}"
+        helm upgrade tst-drivebc-cache -f ./helm/values-tst.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}" --set cronjobs.image.tag="${{ github.sha }}
 

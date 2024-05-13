@@ -5,6 +5,7 @@ on:
     # Runs every week at 02:00 Sunday Morning.
     - cron:  '0 2 * * 0'
   workflow_dispatch:
+    
 
 permissions: 
     packages: read
@@ -12,13 +13,30 @@ permissions:
 
 jobs:
   imagescan-nginx:
-    name: Scan latest-prd Static Image
+    name: Scan latest-prd caching Image
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'ghcr.io/bcgov/drivebc.ca-caching:latest-prd'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+  imagescan-openshiftjobs:
+    name: Scan latest-prd openshift jobs Image
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'ghcr.io/bcgov/drivebc.ca-caching-openshiftjobs:latest-prd'
           format: 'sarif'
           output: 'trivy-results.sarif'
 
