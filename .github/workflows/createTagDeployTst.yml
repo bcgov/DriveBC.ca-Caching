@@ -87,7 +87,7 @@ jobs:
   buildOpenShiftJobs:
     needs: [build-pre]
     runs-on: ubuntu-latest
-    name: Build & Push OpenShift jobs image
+    name: Build & Push OpenShiftjobs image
     permissions:
       contents: read
       packages: write
@@ -99,15 +99,17 @@ jobs:
       with:
         ref: ${{ github.ref_name }}
       
-    - name: Build openshift jobs image
+    - name: Build OpenShift Jobs
       id: build_openshift_image
       uses: redhat-actions/buildah-build@v2
       with:
+        context: .
+        layers: true
         image: drivebc.ca-caching-openshiftjobs
-        tags: latest latest-tst ${{ github.sha }} ${{ needs.build-pre.outputs.tag }}
+        tags: latest latest-dev ${{ github.sha }}
         labels: |
           app=drivebc
-        containerfiles: ./compose/openshiftjobs/Dockerfile
+        containerfiles: ./compose/openshiftjobs/DockerFile
     
     - name: Push to GitHub Images
       uses: redhat-actions/push-to-registry@v2
