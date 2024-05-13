@@ -51,7 +51,7 @@ cronjobs:
         s3Secret: tst-drivebc-cronjob-s3bucket
         environment: tst
       volumes:
-        logs: tst-static-log-storage
+        logs: tst-drivebc-cache-log-storage
     s3secret:
       name: tst-drivebc-cronjob-s3bucket
       access_key_id: "" #DO NOT COMMIT TO GITHUB
@@ -71,4 +71,4 @@ cronjobs:
           cpu: 1000m
           memory: 200Mi
       volumes:
-        logs: tst-static-log-storage
+        logs: tst-drivebc-cache-log-storage

@@ -51,7 +51,7 @@ cronjobs:
         s3Secret: prd-drivebc-cronjob-s3bucket
         environment: prd
       volumes:
-        logs: prd-static-log-storage
+        logs: prd-drivebc-cache-log-storage
     s3secret:
       name: prd-drivebc-cronjob-s3bucket
       access_key_id: "" #DO NOT COMMIT TO GITHUB
@@ -71,4 +71,4 @@ cronjobs:
           cpu: 150m
           memory: 200Mi
       volumes:
-        logs: prd-static-log-storage
+        logs: prd-drivebc-cache-log-storage
