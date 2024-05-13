@@ -92,4 +92,4 @@ jobs:
 
     - name: Helm upgrade on OpenShift Environment
       run: |
-        helm upgrade dev-drivebc-cache -f ./helm/values-dev.yaml ./helm --set image.tag="${{ github.sha }}" --set cronjobs.image.tag="${{ github.sha }}"
+        helm upgrade dev-drivebc-cache -f ./helm/values-dev.yaml ./helm --set image.tag="${{ github.sha }}" --set cronjobs.tag="${{ github.sha }}"

@@ -36,7 +36,7 @@ logpvc:
   storage: 1Gi
 
 cronjobs:
-  image: ghcr.io/bcgov/drivebc.ca-caching-openshiftjobs
+  repository: ghcr.io/bcgov/drivebc.ca-caching-openshiftjobs
   tag: latest-tst
   analyzeuploadlogs:
     name: analyzeuploadlogs
