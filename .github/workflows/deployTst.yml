@@ -31,7 +31,7 @@ jobs:
       run: |
         vtag=${{ github.ref_name }}
         echo "tag=${vtag//v}" >> $GITHUB_OUTPUT
-  buildCachingImages:
+  buildCachingImage:
     needs: [branchCheck, build-pre]
     runs-on: ubuntu-latest
     name: Build & Push Caching Image
@@ -68,7 +68,7 @@ jobs:
   buildOpenShiftJobs:
     needs: [branchCheck, build-pre]
     runs-on: ubuntu-latest
-    name: Build & Deploy Docker images
+    name: Build & Push OpenShift jobs image
     permissions:
       contents: read
       packages: write
@@ -84,7 +84,7 @@ jobs:
       id: build_openshift_image
       uses: redhat-actions/buildah-build@v2
       with:
-        image: drivebc.ca-caching
+        image: drivebc.ca-caching-openshiftjobs
         tags: latest latest-tst ${{ github.sha }} ${{ needs.build-pre.outputs.tag }}
         labels: |
           app=drivebc
@@ -100,7 +100,7 @@ jobs:
          password: ${{ env.REGISTRY_PASSWORD }}
 
   versionUpdate:
-    needs: [buildCachingImages, buildOpenShiftJobs, build-pre]
+    needs: [buildCachingImage, buildOpenShiftJobs, build-pre]
     runs-on: ubuntu-latest
     name: Update the App Version in OpenShift
     environment:
@@ -120,5 +120,5 @@ jobs:
 
     - name: Update the version in OpenShift
       run: |
-        helm upgrade tst-drivebc-cache -f ./helm/values-tst.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}" --set cronjobs.image.tag="${{ github.sha }}
+        helm upgrade tst-drivebc-cache -f ./helm/values-tst.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}" --set cronjobs.image.tag="${{ github.sha }}"
 

@@ -41,11 +41,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Add latest-prd tag to images
+    - name: Add latest-prd tag to caching image
       uses: shrink/actions-docker-registry-tag@v3
       with:
         registry: ghcr.io
         repository: bcgov/drivebc.ca-caching
+        target: ${{ needs.build-pre.outputs.tag }}
+        tags: |
+          latest-prd
+
+    - name: Add latest-prd tag to openshiftjobs image
+      uses: shrink/actions-docker-registry-tag@v3
+      with:
+        registry: ghcr.io
+        repository: bcgov/drivebc.ca-caching-openshiftjobs
         target: ${{ needs.build-pre.outputs.tag }}
         tags: |
           latest-prd
@@ -60,4 +69,4 @@ jobs:
 
     - name: Update the version in OpenShift
       run: |
-        helm upgrade prd-drivebc-cache -f ./helm/values-prd.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}"
+        helm upgrade prd-drivebc-cache -f ./helm/values-prd.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}" --set cronjobs.image.tag="${{ github.sha }}" --set cronjobs.image.tag="${{ github.sha }}"
