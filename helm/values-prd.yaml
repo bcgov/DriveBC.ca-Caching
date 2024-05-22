@@ -33,7 +33,7 @@ route:
   ipallowlist: 142.34.53.0/24 142.22.0.0/15 142.24.0.0/13 142.32.0.0/13 208.181.128.46/32 #The first 4 ranges are GOV IP's, the last one is for OXD external IP
 
 logpvc:
-  storage: 5Gi
+  storage: 10Gi
 
 cronjobs:
   repository: ghcr.io/bcgov/drivebc.ca-caching-openshiftjobs
