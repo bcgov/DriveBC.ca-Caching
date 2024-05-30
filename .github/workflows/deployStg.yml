@@ -69,4 +69,4 @@ jobs:
 
     - name: Update the version in OpenShift
       run: |
-        helm upgrade stg-drivebc-cache -f ./helm/values-stg.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}" --set cronjobs.tag="${{ github.sha }}"
+        helm upgrade stg-drivebc-cache -f ./helm/values-stg.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}" --set cronjobs.tag="${{ needs.build-pre.outputs.tag }}"

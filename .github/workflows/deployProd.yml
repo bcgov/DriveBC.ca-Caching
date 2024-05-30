@@ -69,4 +69,4 @@ jobs:
 
     - name: Update the version in OpenShift
       run: |
-        helm upgrade prd-drivebc-cache -f ./helm/values-prd.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}" --set cronjobs.tag="${{ github.sha }}"
+        helm upgrade prd-drivebc-cache -f ./helm/values-prd.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}" --set cronjobs.tag="${{ needs.build-pre.outputs.tag }}"

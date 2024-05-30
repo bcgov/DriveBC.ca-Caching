@@ -87,7 +87,7 @@ jobs:
         context: .
         layers: true
         image: drivebc.ca-caching-openshiftjobs
-        tags: latest latest-dev ${{ github.sha }}
+        tags: latest latest-tst ${{ github.sha }} ${{ needs.build-pre.outputs.tag }}
         labels: |
           app=drivebc
         containerfiles: ./compose/openshiftjobs/DockerFile
@@ -122,5 +122,5 @@ jobs:
 
     - name: Update the version in OpenShift
       run: |
-        helm upgrade tst-drivebc-cache -f ./helm/values-tst.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}" --set cronjobs.tag="${{ github.sha }}"
+        helm upgrade tst-drivebc-cache -f ./helm/values-tst.yaml ./helm --set image.tag="${{ needs.build-pre.outputs.tag }}" --set cronjobs.tag="${{ needs.build-pre.outputs.tag }}"
 
