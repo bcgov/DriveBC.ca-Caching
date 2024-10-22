@@ -23,6 +23,10 @@ jobs:
           image-ref: 'ghcr.io/bcgov/drivebc.ca-caching:latest-prd'
           format: 'sarif'
           output: 'trivy-results.sarif'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          limit-severities-for-sarif: true
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
@@ -39,6 +43,10 @@ jobs:
           image-ref: 'ghcr.io/bcgov/drivebc.ca-caching-openshiftjobs:latest-prd'
           format: 'sarif'
           output: 'trivy-results.sarif'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          limit-severities-for-sarif: true
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
