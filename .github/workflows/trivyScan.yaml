@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
+        env:
+          TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db:2
         with:
           image-ref: 'ghcr.io/bcgov/drivebc.ca-caching:latest-prd'
           format: 'sarif'
@@ -39,6 +41,8 @@ jobs:
     steps:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
+        env:
+          TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db:2
         with:
           image-ref: 'ghcr.io/bcgov/drivebc.ca-caching-openshiftjobs:latest-prd'
           format: 'sarif'
