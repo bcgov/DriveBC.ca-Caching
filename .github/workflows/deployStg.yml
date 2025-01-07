@@ -41,6 +41,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Install CLI tools from OpenShift Mirror
+      uses: redhat-actions/openshift-tools-installer@v1
+      with:
+        oc: "4"
+
     - name: Add latest-stg tag to caching image
       uses: shrink/actions-docker-registry-tag@v3
       with:
