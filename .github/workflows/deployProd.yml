@@ -47,7 +47,7 @@ jobs:
         oc: "4"
 
     - name: Add latest-prd tag to caching image
-      uses: shrink/actions-docker-registry-tag@v3
+      uses: shrink/actions-docker-registry-tag@v4
       with:
         registry: ghcr.io
         repository: bcgov/drivebc.ca-caching
@@ -56,7 +56,7 @@ jobs:
           latest-prd
 
     - name: Add latest-prd tag to openshiftjobs image
-      uses: shrink/actions-docker-registry-tag@v3
+      uses: shrink/actions-docker-registry-tag@v4
       with:
         registry: ghcr.io
         repository: bcgov/drivebc.ca-caching-openshiftjobs
