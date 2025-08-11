@@ -42,7 +42,7 @@ jobs:
       name: tst
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         ref: ${{ github.ref_name }}
       
@@ -76,7 +76,7 @@ jobs:
       name: tst
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         ref: ${{ github.ref_name }}
       
@@ -110,7 +110,7 @@ jobs:
       url: https://tst-drivebc-cache.apps.silver.devops.gov.bc.ca
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Install CLI tools from OpenShift Mirror
       uses: redhat-actions/openshift-tools-installer@v1
