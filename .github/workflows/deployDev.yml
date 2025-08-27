@@ -21,7 +21,7 @@ jobs:
     
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     
     - name: Build Image Caching
       id: build_image
@@ -50,7 +50,7 @@ jobs:
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Build OpenShift Jobs
       id: build_openshift_image
@@ -82,7 +82,7 @@ jobs:
       url: https://dev-drivebc-cache.apps.silver.devops.gov.bc.ca
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Install CLI tools from OpenShift Mirror
       uses: redhat-actions/openshift-tools-installer@v1
