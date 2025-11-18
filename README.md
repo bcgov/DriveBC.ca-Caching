@@ -1,4 +1,7 @@
 # DriveBC.ca Caching
+## NO LONGER USED
+This tool was used to support the legacy site during high load events, but now with the legacy site being retired, this is no longer required.
+
 ## Introduction
 During high load scenarios such as winter storms, atmospheric rivers, flooding, etc there can be too much traffic hitting the Drivebc.ca desktop and mobile sites which causes reduced performance for end users.
 
